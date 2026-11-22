@@ -77,15 +77,18 @@ const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 function localFaq(text) {
   const low = text.toLowerCase();
   const info = { hours: "Lun-Dom 8:00-22:00", location: "Paraíso, Tabasco", phone: "(933) 688 55 85", email: "contacto@puertoamgourmet.mx" };
-  if (low.includes("hora") || low.includes("horario") || low.includes("abren") || low.includes("cierran")) return "Nuestro horario es " + info.hours + ". ¡Te esperamos!";
-  if (low.includes("ubicacion") || low.includes("ubicación") || low.includes("donde") || low.includes("dónde") || low.includes("dirección") || low.includes("direccion")) return "Estamos en " + info.location + ". Contáctanos al " + info.phone + " para la dirección exacta.";
-  if (low.includes("telefono") || low.includes("teléfono") || low.includes("contacto") || low.includes("whatsapp")) return "Puedes llamarnos al " + info.phone + " o escribir a " + info.email + ".";
-  if (low.includes("menu") || low.includes("menú") || low.includes("carta") || low.includes("platillo") || low.includes("comida")) return "La carta se actualiza por temporada. Solicita el menú vigente por WhatsApp o correo y con gusto te lo enviamos.";
-  if (low.includes("pedido") || low.includes("estatus") || low.includes("rastrear") || low.includes("seguimiento")) return "No puedo rastrear pedidos en línea, pero con gusto damos seguimiento. Déjanos tu nombre, teléfono y número de pedido en el formulario de contacto o por WhatsApp y te confirmamos el estatus a la brevedad.";
-  if (low.includes("reserva") || low.includes("reservar") || low.includes("mesa")) return "Para reservar, deja tus datos en el formulario de contacto o escríbenos por WhatsApp; confirmamos en minutos.";
-  if (low.includes("catering") || low.includes("evento") || low.includes("boda") || low.includes("comedor industrial")) return "Ofrecemos catering para eventos y comedor industrial. Cuéntanos fecha, número de personas y tipo de evento para cotizar.";
-  if (low.includes("precio") || low.includes("costo") || low.includes("cuanto") || low.includes("cuánto")) return "Los precios varían por servicio y temporada. Envíanos tu solicitud y te cotizamos sin compromiso.";
-  return "Soy el asistente de Puerto A&M. Puedo ayudarte con horarios, ubicación, reservas, catering, menú y contacto. Para atención personalizada escribe a " + info.email + " o " + info.phone + ".";
+  if (low.includes("hora") || low.includes("horario") || low.includes("abren") || low.includes("cierran")) return "¡Claro! Nuestro horario es " + info.hours + ". Te esperamos para disfrutar del mejor sabor del mar. ¿Te gustaría reservar mesa?";
+  if (low.includes("ubicacion") || low.includes("ubicación") || low.includes("donde") || low.includes("dónde") || low.includes("dirección") || low.includes("direccion")) return "Estamos en " + info.location + ". Escríbenos al " + info.phone + " y te enviamos la ubicación exacta y cómo llegar. ¡Te esperamos!";
+  if (low.includes("telefono") || low.includes("teléfono") || low.includes("contacto") || low.includes("whatsapp")) return "Puedes llamarnos al " + info.phone + " o escribir a " + info.email + ". Con gusto te atendemos.";
+  if (low.includes("menu") || low.includes("menú") || low.includes("carta") || low.includes("platillo") || low.includes("comida")) return "Nuestro menú costero es una delicia: Huachinango a la Talla ($450, estrella de la casa), Camarones al Coco ($295), Molcajete de Mariscos ($380 para compartir), Filete de Robalo al Grill ($320) y más. ¿Te antoja alguno? Te envío la carta completa por WhatsApp.";
+  if (low.includes("huachinango") || low.includes("estrella")) return "El Huachinango a la Talla ($450) es nuestra estrella: huachinango entero marinado en achiote, asado a la leña. ¡Una experiencia inolvidable! ¿Te gustaría reservar para probarlo?";
+  if (low.includes("camaron") || low.includes("camarón") || low.includes("camarones")) return "Los Camarones al Coco ($295) son una delicia: empanizados en coco con salsa de mango y chile. Y el Ceviche de Camarón ($165) es fresco y ligero. ¿Te antoja alguno?";
+  if (low.includes("pedido") || low.includes("estatus") || low.includes("rastrear") || low.includes("seguimiento")) return "No puedo rastrear pedidos en línea, pero con gusto damos seguimiento. Déjanos tu nombre, teléfono y número de pedido por WhatsApp y te confirmamos el estatus a la brevedad.";
+  if (low.includes("reserva") || low.includes("reservar") || low.includes("mesa")) return "¡Con gusto! Para reservar necesito: nombre, teléfono, fecha, hora y número de personas. Déjanos esos datos aquí o por WhatsApp al " + info.phone + " y confirmamos en minutos.";
+  if (low.includes("catering") || low.includes("evento") || low.includes("boda") || low.includes("comedor industrial")) return "Ofrecemos catering para eventos y comedor industrial. Cuéntanos fecha, número de personas y tipo de evento y te cotizamos. ¡Hacemos tu evento inolvidable!";
+  if (low.includes("precio") || low.includes("costo") || low.includes("cuanto") || low.includes("cuánto")) return "Los precios varían por platillo y temporada. El Huachinango a la Talla está en $450, los Camarones al Coco en $295. Envíanos tu solicitud y te cotizamos sin compromiso.";
+  if (low.includes("postre") || low.includes("flan") || low.includes("pastel") || low.includes("helado")) return "Para cerrar con broche de oro: Flan de Coco ($85), Pastel de Chocolate ($95) o Helado de Vainilla ($70). ¿Te antoja uno con tu platillo?";
+  return "¡Hola! Soy el asistente de Puerto A&M. Puedo ayudarte con horarios, ubicación, reservas, catering, menú y contacto. ¿Te gustaría ver nuestro menú costero o reservar una mesa? Escríbenos al " + info.email + " o " + info.phone + ".";
 }
 
 async function sendMsg() {
@@ -96,17 +99,18 @@ async function sendMsg() {
   showTyping();
   // Intentar IA directa (sin n8n)
   try {
+    const SOUL = "Eres el asistente virtual de Puerto A&M Gourmet, restaurante de comida costera en Paraíso, Tabasco. Amable, cálido y persuasivo. Conoces el menú: Ceviche de Camarón $165, Sopa de Mariscos $140, Tostadas de Atún $150, Coctel de Camarón $175, Taco de Pescado a la Veracruzana $185, Filete de Robalo al Grill $320, Camarones al Coco $295, Huachinango a la Talla $450 (estrella), Molcajete de Mariscos $380, Enchiladas de Mariscos $210, Horchata $45, Limonada $55, Cerveza Artesanal $95, Vino Blanco $180, Flan de Coco $85, Pastel de Chocolate $95, Helado de Vainilla $70. Antoja describiendo sabores. Puedes tomar reservas (pide nombre, teléfono, fecha, hora, personas) y pedidos (platillos, cantidades, nombre, teléfono, dirección, hora). Sugiere bebidas y postres. No inventes datos fuera del menú. Horario Lun-Dom 8:00-22:00. Tel (933) 688 55 85. Email contacto@puertoamgourmet.mx. Responde en español, claro y conciso, máximo ~120 palabras. Termina con llamado a la acción.";
     const r = await fetch(OPENROUTER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + OPENROUTER_KEY, 'HTTP-Referer': window.location.href, 'X-Title': 'Puerto A&M' },
       body: JSON.stringify({
         model: 'google/gemma-4-26b-a4b-it:free',
         messages: [
-          { role: 'system', content: 'Eres el asistente de atención al cliente de Puerto A&M Gourmet, restaurante en Paraíso, Tabasco. Responde en español, amable, claro y conciso. No inventes datos no proporcionados (menú detallado, precios, dirección exacta). Si no sabes algo, indica cómo contactar: (933) 688 55 85 / contacto@puertoamgourmet.mx.' },
+          { role: 'system', content: SOUL },
           { role: 'user', content: text }
         ],
         max_tokens: 300,
-        temperature: 0.4
+        temperature: 0.7
       })
     });
     const data = await r.json();
